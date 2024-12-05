@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Image Slider</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: white;
+        }
+
+        .slider {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin: auto;
+            perspective: 1000px;
+        }
+
+        .slides {
+            display: flex;
+            transform-style: preserve-3d;
+            transition: transform 0.8s ease-in-out;
+        }
+
+        .slide {
+            min-width: 100%;
+            backface-visibility: hidden;
+            position: relative;
+            text-align: center;
+        }
+
+        .slide img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .caption {
+            position: absolute;
+            bottom: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+        }
+
+        .caption h1 {
+            font-size: 2.5rem;
+            margin: 0;
+        }
+
+        .caption p {
+            font-size: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        button.prev {
+            left: 10px;
+        }
+
+        button.next {
+            right: 10px;
+        }
+
+        button:hover {
+            background-color: rgba(255, 255, 255, 0.7);
+            color: black;
+        }
+
+        .slide:not(.active) {
+            opacity: 0.3;
+            transform: scale(0.85) translateX(50px);
+        }
+
+        .slide.active {
+            transform: scale(1) translateX(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="slider">
+        <div class="slides">
+            <div class="slide active">
+                <img src="nat1.jpg" alt="Machu Picchu">
+                <div class="caption">
+                    <h1>Streams</h1>
+                    <p> walk with nature</p>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="nat2.jpg" alt="Mountain Landscape">
+                <div class="caption">
+                    <h1>Mountain</h1>
+                    <p>Explore the heights</p>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="nat3.jpg" alt="Serene Valley">
+                <div class="caption">
+                    <h1>Explore</h1>
+                    <p>Find your peace</p>
+                </div>
+            </div>
+        </div>
+        <button class="prev">❮</button>
+        <button class="next">❯</button>
+    </div>
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        let currentIndex = 0;
+
+        function updateSlides() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index === currentIndex) {
+                    slide.classList.add('active');
+                }
+            });
+        }
+
+        document.querySelector('.next').addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % slides.length;
+            updateSlides();
+        });
+
+        document.querySelector('.prev').addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+            updateSlides();
+        });
+
+        setInterval(() => {
+            currentIndex = (currentIndex + 1) % slides.length;
+            updateSlides();
+        }, 5000);
+    </script>
+</body>
+</html>
